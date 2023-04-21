@@ -1,0 +1,28 @@
+.teams-box {
+    position: relative;
+    background-color: rgb(255, 255, 255, 0.2);
+    width: 75vw;
+    height: 75vh;
+    border-radius: 25px;
+    border: 0.25px solid rgb(255, 255, 255);
+    backdrop-filter: blur(25px);
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.teams-box::-webkit-scrollbar {
+    display: none;
+}
+
+.teams-item {
+    display: flex;
+    min-height: 200px;
+    margin: 10px;
+    margin-bottom: 25px;
+    border: 0.25px solid rgb(255, 255, 255);
+    border-radius: 25px;
+    backdrop-filter: blur(25px);
+    overflow: hidden;
+    background-color: rgb(255, 255, 255, 0.2);
+}
