@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, setDoc } from "firebase/firestore";
 import {db} from '../firebase.js';
 
+
 interface TeamData {
     teamID: string,
     teamName: string,
@@ -33,10 +34,10 @@ export default async function handler(
             await createTeam(req.body); 
             res.status(200);
         } catch(error) {
-            res.status(404);
+            res.status(400);
         }
     } else {
-        res.status(400);
+        res.status(404);
     }
     res.end();
 }

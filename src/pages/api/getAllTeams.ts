@@ -24,7 +24,7 @@ async function getAllTeamsFromDB() {
     const querySnapshot = await getDocs(query(collection(db, "Teams")));
     querySnapshot.forEach((doc) => {
         teams.push(doc.data() as TeamData);
-    })
+    });
     return teams;
 }
 
@@ -38,10 +38,10 @@ export default async function handler(
             const teamsData: TeamData[]  = await getAllTeamsFromDB(); 
             res.status(200).json(teamsData);
         } catch(error) {
-            res.status(404);
+            res.status(400);
         }
     } else {
-        res.status(400);
+        res.status(404);
     }
     res.end();
 }
