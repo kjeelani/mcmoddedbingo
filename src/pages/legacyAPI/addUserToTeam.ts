@@ -16,7 +16,8 @@ interface TeamData {
 }
 
 interface UserData {
-    username: string,
+    username?: string,
+    email?: string,
     userID: string,
     teamID: string
 }
