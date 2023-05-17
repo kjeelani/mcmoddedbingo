@@ -3,24 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { collection, query, getDocs } from "firebase/firestore";
 import {db} from '../../firebase.js';
-
-interface TeamData {
-    teamID: string,
-    teamName: string,
-    players: string[], 
-    isFull?: boolean,
-    challengesCompleted: number,
-    nodes: {
-        [challengeID: string]: Node
-    }
-}
-
-interface UserData {
-    username: string,
-    email: string,
-    userID: string,
-    teamID: string
-}
+import { TeamData, UserData } from '@/pages/components/ApiData.js';
 
 async function addUserToTeam(user: UserData) {
     /*

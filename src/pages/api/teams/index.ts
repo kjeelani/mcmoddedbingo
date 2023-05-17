@@ -3,24 +3,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { collection, query, getDocs } from "firebase/firestore";
 import {db} from '../../firebase.js';
 import { ParsedUrlQuery } from 'querystring';
-
-
-interface TeamData {
-    teamID: string,
-    teamName: string,
-    players: string[], 
-    isFull?: boolean,
-    challengesCompleted: number,
-    nodes: {
-        [challengeID: string]: Node
-    }
-}
-
-interface Node {
-    challengeID: string,
-    completed: boolean,
-    data: string 
-}
+import { TeamData, Teams } from '@/pages/components/ApiData.js';
 
 async function getAllTeams() {
     let teams: TeamData[] = [];
@@ -28,11 +11,11 @@ async function getAllTeams() {
     querySnapshot.forEach((doc) => {
         teams.push(doc.data() as TeamData);
     });
-    return teams;
+    return {"teams": teams};
 }
 
 async function getTeamByTeamID(teamID: string) {
-    let teams: TeamData[] = await getAllTeams();
+    let teams: TeamData[] = (await getAllTeams()).teams;
     for (let team of teams) {
         if (team.teamID == teamID) {
             return team;
@@ -43,7 +26,7 @@ async function getTeamByTeamID(teamID: string) {
 
 
 async function getTeamByUserID(userID: string) {
-    let teams: TeamData[] = await getAllTeams();
+    let teams: TeamData[] = (await getAllTeams()).teams;
     for (let team of teams) {
         if (userID in team.players) {
             return team;
@@ -57,12 +40,12 @@ async function createTeam(team: TeamData) {
 }
 
 async function processTeamGetRequest(req: TeamRequest) {
-    if (typeof req.query.teamID !== undefined) {
-        await getTeamByTeamID(req!.query!.teamID!);
-    } else if (typeof req.query.userID !== undefined) {
-        await getTeamByUserID(req!.query!.userID!);
+    if (typeof req.query.teamID !== "undefined") {
+        return await getTeamByTeamID(req!.query!.teamID!);
+    } else if (typeof req.query.userID !== "undefined") {
+        return await getTeamByUserID(req!.query!.userID!);
     } else {
-        await getAllTeams();
+        return await getAllTeams();
     }
 }
 
@@ -89,7 +72,8 @@ export default async function handler(
         }
     } else if (req.method == "GET") {
         try {
-            let data = processTeamGetRequest(req);
+            let data = await processTeamGetRequest(req);
+            console.log(data)
             res.status(200).json(data);
         } catch(error) {
             res.status(400);

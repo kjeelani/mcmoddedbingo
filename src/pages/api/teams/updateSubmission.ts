@@ -3,37 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import {db, storage} from '../../firebase.js';
-
-interface TeamData {
-    teamID: string,
-    teamName: string,
-    players: string[], 
-    isFull?: boolean,
-    challengesCompleted?: number,
-    nodes: {
-        [challengeID: string]: Node
-    }
-}
-
-interface ChallengeData {
-    challengeID: string,
-    title: string,
-    instructions: string,
-    teamsCompleted: string[]
-}
-
-
-interface Node {
-    challengeID: string,
-    completed: boolean,
-    data: string 
-}
-
-interface ChallengeSubmission {
-    teamData: TeamData,
-    challengeID: string,
-    submissionImage: Blob
-}
+import { TeamData, ChallengeData, ChallengeSubmission, Node } from '@/pages/components/ApiData.js';
 
 async function updateChallengeWithSubmission(chalID: string, teamID: string) {
     const docRef = doc(db, "Challenges", chalID);
@@ -70,7 +40,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    if (req.method == "POST") {
+    if (req.method == "PATCH") {
         try {
             await updateSubmission(req.body); 
             res.status(200);

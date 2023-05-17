@@ -2,20 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, getDoc } from "firebase/firestore";
 import { ParsedUrlQuery } from 'querystring';
 import {db} from '../../firebase.js';
-
-
-interface UserData {
-    username: string,
-    email: string,
-    userID: string,
-    teamID: string
-}
-
-interface Node {
-    challengeID: string,
-    completed: boolean,
-    data: string 
-}
+import { UserData } from '@/pages/components/ApiData.js';
 
 async function getUser(userID: string) {
     const docRef = doc(db, "UserAuth", userID);
