@@ -20,9 +20,9 @@ export function GoogleSignIn(gsiprops: GoogleSignInProps) {
     const auth = getAuth();
     const [user] = useAuthState(auth);
 
-    const [{ data }, refetch] = useAxios({
+    const [{ data, loading, error }, refetch] = useAxios({
         url: "api/users",
-        method: "POST"
+        method: "GET"
       }, {manual: true}
     );
 

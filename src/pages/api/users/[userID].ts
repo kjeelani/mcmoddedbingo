@@ -9,8 +9,8 @@ async function getUser(userID: string) {
     const docSnap = await getDoc(docRef);
     const user : UserData | null = docSnap.data() as UserData;
 
-    if (user === null) {
-        return {};
+    if (user === undefined || user === null) {
+        return {"userID":"-1", "teamID":"-1"};
     }
     return user;
 }
@@ -31,7 +31,7 @@ export default async function handler(
     if (req.method == "GET") {
         try {
             if (req.query.userID !== undefined) {
-                let data = getUser(req.query.userID);
+                let data = await getUser(req.query.userID);
                 res.status(200).json(data);
             } else {
                 res.status(400);

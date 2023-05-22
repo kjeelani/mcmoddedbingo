@@ -10,6 +10,9 @@ import { useEffect } from "react";
 
 
 function createNodes(nodes: any, team: any) {
+    if (nodes === undefined || team === undefined) {
+        return <></>
+    }
     return (
         Object.keys(nodes).map((chalID: string) => {
             return <BingoNode key={chalID} 
@@ -31,7 +34,7 @@ export default function Home() {
     const [{ data, loading }, refetch] = useAxios({
         url: `api/teams/${teamID as string}`,
         method: "GET",
-    }, {manual: true});
+    });
 
     useEffect(() => {
         refetch();
