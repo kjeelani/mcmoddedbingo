@@ -21,7 +21,6 @@ import {
 import { extendTheme } from '@chakra-ui/react'
 import { ArrowLeftIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
 
 export interface CenteredCardProps {
 	children: React.ReactNode;

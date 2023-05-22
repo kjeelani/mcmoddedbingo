@@ -3,9 +3,9 @@ import { doc, setDoc } from "firebase/firestore";
 import { collection, query, getDocs } from "firebase/firestore";
 import {db} from '../../firebase.js';
 import { ParsedUrlQuery } from 'querystring';
-import { TeamData, Teams } from '@/pages/components/ApiData.js';
+import { TeamData, Teams } from '@/components/APIData';
 
-async function getAllTeams() {
+export async function getAllTeams() {
     let teams: TeamData[] = [];
     const querySnapshot = await getDocs(query(collection(db, "Teams")));
     querySnapshot.forEach((doc) => {
@@ -14,39 +14,8 @@ async function getAllTeams() {
     return {"teams": teams};
 }
 
-async function getTeamByTeamID(teamID: string) {
-    let teams: TeamData[] = (await getAllTeams()).teams;
-    for (let team of teams) {
-        if (team.teamID == teamID) {
-            return team;
-        }
-    }
-    return {};
-}
-
-
-async function getTeamByUserID(userID: string) {
-    let teams: TeamData[] = (await getAllTeams()).teams;
-    for (let team of teams) {
-        if (userID in team.players) {
-            return team;
-        }
-    }
-    return {};
-}
-
 async function createTeam(team: TeamData) {
     await setDoc(doc(db, "Teams", team.teamID.toString()), team)
-}
-
-async function processTeamGetRequest(req: TeamRequest) {
-    if (typeof req.query.teamID !== "undefined") {
-        return await getTeamByTeamID(req!.query!.teamID!);
-    } else if (typeof req.query.userID !== "undefined") {
-        return await getTeamByUserID(req!.query!.userID!);
-    } else {
-        return await getAllTeams();
-    }
 }
 
 interface TeamQuery extends ParsedUrlQuery {
@@ -72,8 +41,7 @@ export default async function handler(
         }
     } else if (req.method == "GET") {
         try {
-            let data = await processTeamGetRequest(req);
-            console.log(data)
+            let data = await getAllTeams();
             res.status(200).json(data);
         } catch(error) {
             res.status(400);
