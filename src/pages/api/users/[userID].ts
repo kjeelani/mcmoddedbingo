@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, getDoc } from "firebase/firestore";
 import { ParsedUrlQuery } from 'querystring';
-import {db} from '../../firebase.js';
+import {db} from '../../../firebase.js';
 import { UserData } from '@/components/APIData';
 
 async function getUser(userID: string) {

@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { collection, query, getDocs } from "firebase/firestore";
-import {db} from '../../firebase.js';
+import {db} from '../../../firebase.js';
 import { TeamData, UserData } from '@/components/APIData';
 
 async function addUserToTeam(user: UserData) {

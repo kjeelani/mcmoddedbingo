@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
-import {db, storage} from '../../firebase.js';
+import {db, storage} from '../../../firebase.js';
 import { TeamData, ChallengeData, SubmissionData, Node } from '@/components/APIData';
 import { readFileSync } from "node:fs";
 import formidable from 'formidable-serverless'

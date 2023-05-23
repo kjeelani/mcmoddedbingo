@@ -3,7 +3,7 @@ import {
     Button
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router';
-import {initFirebaseApp} from '../../pages/firebase.js';
+import {initFirebaseApp} from '../../firebase.js/index.js';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 
