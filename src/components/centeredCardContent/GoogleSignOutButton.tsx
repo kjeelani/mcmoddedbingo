@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { 
     Button
 } from '@chakra-ui/react'
@@ -18,11 +18,15 @@ export function GoogleSignOut(gsoprops: GoogleSignOutProps) {
     const auth = getAuth();
     const [user] = useAuthState(auth);
 
-    if (!user) {
-        if (typeof window !== undefined) {
-            router.push("/");
+
+
+    useEffect(() => {
+        if (!user) {
+            if (typeof window !== undefined) {
+                router.push("/");
+            }
         }
-    }
+    }, [user])
 
     return (
         <Button
