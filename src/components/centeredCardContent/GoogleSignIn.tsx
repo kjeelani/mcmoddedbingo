@@ -40,10 +40,12 @@ export function GoogleSignIn(gsiprops: GoogleSignInProps) {
             queryObj = data;
             pathName = "/bingoBoard"
         }
-        router.push({
-            pathname: pathName,
-            query: queryObj
-        });
+        if (typeof window !== undefined) {
+            router.push({
+                pathname: pathName,
+                query: queryObj
+            });
+        }
     }
 
     const signIn = async () => {

@@ -19,7 +19,9 @@ export function GoogleSignOut(gsoprops: GoogleSignOutProps) {
     const [user] = useAuthState(auth);
 
     if (!user) {
-        router.push("/");
+        if (typeof window !== undefined) {
+            router.push("/");
+        }
     }
 
     return (
