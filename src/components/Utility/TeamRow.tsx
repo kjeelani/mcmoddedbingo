@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { 
     Flex,
     Heading,
@@ -6,6 +6,7 @@ import {
     Text,
     Box,
     Link,
+    useDisclosure,
 } from '@chakra-ui/react'
 import {    
     AddIcon,
@@ -13,6 +14,7 @@ import {
     UnlockIcon
 } from '@chakra-ui/icons'
 import { TeamData } from "../APIData";
+import { TeamPasswordModal, TeamPasswordModalProps} from "./TeamPasswordModal";
 import useAxios from "axios-hooks";
 import { useRouter } from 'next/router';
 
@@ -24,31 +26,41 @@ export interface TeamRowProps {
 
 export function TeamRow(trprops: TeamRowProps) {
     const router = useRouter();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [shouldJoinTeam, setShouldJoinTeam] = useState(false);
     const [{ data }, refetch] = useAxios({
         url: "api/teams/addMember",
         method: "PATCH"
       }, {manual: true}
     );
 
-    const joinTeam = async () => {
-        const user = router.query;
-        user.teamID = trprops.team.teamID;
+    
 
-        await refetch({
-            url: "api/teams/addMember",
-            method: "PATCH",
-            data: user,
-        });
-        await refetch({
-            url: "api/users",
-            method: "POST",
-            data: user,
-        });
-        router.push({
-            pathname: "/bingoBoard",
-            query: user
-        });
-    }
+    useEffect(() => {
+        const joinTeam = async () => {
+            const user = router.query;
+            user.teamID = trprops.team.teamID;
+    
+            await refetch({
+                url: "api/teams/addMember",
+                method: "PATCH",
+                data: user,
+            });
+            await refetch({
+                url: "api/users",
+                method: "POST",
+                data: user,
+            });
+            router.push({
+                pathname: "/bingoBoard",
+                query: user
+            });
+        }
+        if(shouldJoinTeam) {
+            joinTeam();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [shouldJoinTeam])
 
     return (
         <Box>
@@ -63,7 +75,7 @@ export function TeamRow(trprops: TeamRowProps) {
             >
                 {
                     trprops.team.players.length < 4
-                    ? <Link onClick={joinTeam}><AddIcon /></Link>
+                    ? <Link onClick={onOpen}><AddIcon /></Link>
                     : <Link><AddIcon /></Link>
                 }
                 <Text fontSize='l'>{trprops.team.teamName}</Text>
@@ -75,6 +87,15 @@ export function TeamRow(trprops: TeamRowProps) {
                     : <UnlockIcon color="green.700"/>
                 }
             </Flex>
+            <TeamPasswordModal 
+                password={trprops.team.password}
+                isOpen={isOpen}
+                onCloseWithSubmit={() => {
+                    setShouldJoinTeam(true);
+                    onClose();
+                }}
+                onCloseWithOutSubmit={onClose}
+            />
         </Box>
     );
 }

@@ -4,7 +4,7 @@ import {
     Heading,
     Spacer,
     Text,
-    Box,
+    Textarea ,
     Input,
     Button,
     Modal,
@@ -17,18 +17,27 @@ import {
 } from '@chakra-ui/react'
 import { ChallengeData, TeamData } from "../APIData";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export interface NodeModalProps {
-	challenge: ChallengeData,
+	userID: string,
+    challenge: ChallengeData,
     team: TeamData,
     isOpen: boolean,
     onCloseWithSubmit: () => void,
     onCloseWithOutSubmit: () => void
 }
 
+//This is the type of the "submission" state
+interface SubmissionData {
+    image: any,
+    text: string
+}
+
 export function NodeModal(nmprops: NodeModalProps) {
     const [currentImage, setCurrentImage] = useState<any>(null);
-    const [finalImage, setFinalImage] = useState<any>(null);
+    const [currentText, setCurrentText] = useState("");
+    const [submission, setSubmission] = useState<any>(null);
     
 
     useEffect(() => {
@@ -36,7 +45,12 @@ export function NodeModal(nmprops: NodeModalProps) {
             const formData = new FormData();
             formData.append("teamData", JSON.stringify(nmprops.team));
             formData.append("challengeID", nmprops.challenge.challengeID);
-            formData.append("submissionImage", finalImage);
+            formData.append("userID", nmprops.userID);
+            if (submission.image !== null) {
+                formData.append("submissionImage", submission.image);
+            }
+            formData.append("submissionText", submission.text);
+
 
             await axios.post(`api/teams/updateSubmission`, formData, {
                 method: "PATCH",
@@ -46,26 +60,29 @@ export function NodeModal(nmprops: NodeModalProps) {
             });
             nmprops.onCloseWithSubmit();
         }
-        if (finalImage === null) {
+        if (submission === null || 
+            (submission.image == null 
+                && (submission.text == ""
+                || submission.text == "Submit Google Drive link to media alongside any comments"))) {
             return;
         } else {
             submitImage();
         }
-    },[finalImage, nmprops])
+    },[submission, nmprops])
 
     return (
         <Modal isOpen={nmprops.isOpen} onClose={nmprops.onCloseWithOutSubmit}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{nmprops.challenge.title}</ModalHeader>
+          <ModalHeader fontSize="2xl">{nmprops.challenge.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text fontSize="lg" mb = "3vh">
+            <Text fontSize="lg" mb = "5vh">
                 {nmprops.challenge.instructions}
             </Text>
-            <Text color="gray.400" mb = "3vh">
-                Warning: Only your last uploaded file will be submitted!
-            </Text>
+            <Heading fontSize="md" mb = "3vh">
+                Submit Image Directly or Add Google Drive Link
+            </Heading>
             <input 
                 type="file" 
                 accept=".png,.jpg,.jpeg,.mov,.gif,.mp4"
@@ -76,12 +93,26 @@ export function NodeModal(nmprops: NodeModalProps) {
                     }
                 }}
             ></input>
+            <Text color="gray.400" mb="3vh" mt="1vh">
+                Note: Only your last uploaded file will be submitted!
+            </Text>
+            <Textarea 
+                fontSize="sm"
+                placeholder="Submit Google Drive link to media alongside any comments"
+                onChange={(e) => {
+                    setCurrentText(e.target.value);
+                }}
+            >
+            </Textarea>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme='blue' mr={3} onClick={(e) => {
                 e.preventDefault();
-                setFinalImage(currentImage);
+                setSubmission({
+                    "image": currentImage,
+                    "text": currentText
+                });
             }}>
               Submit
             </Button>

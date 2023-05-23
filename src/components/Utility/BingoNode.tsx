@@ -18,10 +18,21 @@ import { NodeModal, NodeModalProps } from "./NodeModal"
 import { TeamData } from "../APIData";
 
 export interface BingoNodeProps {
+    userID: string
 	challengeID: string,
     teamData: TeamData,
-    completed: boolean,
+    status: number,
 }
+
+/*
+DISCLAIMER!!!!!
+
+Statuses:
+0 -> Nothing submitted for this node
+1 -> Something submitted, but under review
+2 -> Reviewed and accepted
+3 -> Reviewed and rejected
+*/
 
 export function BingoNode(bnprops: BingoNodeProps) {
     const [{ data, loading }, refetch] = useAxios({
@@ -30,22 +41,35 @@ export function BingoNode(bnprops: BingoNodeProps) {
       }
     );
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [isCompleted, setIsCompleted] = useState(bnprops.completed);
+    const [status, setStatus] = useState(bnprops.status);
+    const getColorFromStatus = () => {
+        switch (status) {
+            case 1:
+                return "yellow.300";
+            case 2:
+                return "green.300";
+            case 3: 
+                return "red.300";
+            default:
+                return "gray.100";
+        }
+    }
 
     return (
-        <Link onClick={!isCompleted ? onOpen : function(){console.log("failed")}}>
-            <Box p="8" fontSize="lg" bgColor={!!data && isCompleted ? "green.300" : "gray.100"}>
+        <Link onClick={(status === 0 || status === 3)  ? onOpen : function(){}}>
+            <Box p="8" fontSize="lg" bgColor={getColorFromStatus()}>
                 {loading && <Text>Loading...</Text>}
                 {!!data && 
                     <>
                     <Text>{data.title}</Text>
-                    {!bnprops.completed && 
+                    {(status === 0 || status === 3) && 
                         <NodeModal 
+                            userID={bnprops.userID}
                             team={bnprops.teamData}
                             challenge={data}
                             isOpen={isOpen}
                             onCloseWithSubmit={() => {
-                                setIsCompleted(true);
+                                setStatus(1);
                                 onClose();
                             }}
                             onCloseWithOutSubmit={onClose}

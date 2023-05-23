@@ -5,20 +5,21 @@ import { BingoNavbar } from '@/components/BingoNavbar';
 import { useRouter } from 'next/router';
 import { TeamData } from "@/components/APIData";
 import { SimpleGrid, Box, Heading } from "@chakra-ui/react";
-import { BingoNode } from "@/components/Team/BingoNode";
+import { BingoNode } from "@/components/Utility/BingoNode";
 import { useEffect } from "react";
 
 
-function createNodes(nodes: any, team: any) {
+function createNodes(nodes: any, team: any, userID: string) {
     if (nodes === undefined || team === undefined) {
         return <></>
     }
     return (
         Object.keys(nodes).map((chalID: string) => {
             return <BingoNode key={chalID} 
+                        userID={userID}
                         teamData={team as TeamData} 
                         challengeID={chalID} 
-                        completed={nodes[chalID].completed} 
+                        status={nodes[chalID].status} 
                     />
         })
     );
@@ -50,7 +51,7 @@ export default function Home() {
                     <Box textAlign="center" mb="6vh">
                         <Heading mb="3vh">{`${data.teamName}'s Bingo Board`}</Heading>
                         <SimpleGrid columns={5} spacing={3}>
-                            {!!data && createNodes(data.nodes, data)}
+                            {!!data && createNodes(data.nodes, data, router.query.userID as string)}
                         </SimpleGrid>
                     </Box> 
                 }

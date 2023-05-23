@@ -8,9 +8,8 @@ export interface ChallengeData {
 export interface TeamData {
     teamID: string,
     teamName: string,
-    players: string[], 
-    isFull?: boolean,
-    challengesCompleted: number,
+    password: string,
+    players: string[],
     nodes: {
         [challengeID: string]: Node
     }
@@ -25,14 +24,26 @@ export interface UserData {
 
 export interface Node {
     challengeID: string,
-    completed: boolean,
+    status: number,
     data: string 
 }
 
 export interface ChallengeSubmission {
+    userID: string,
     teamData: TeamData,
     challengeID: string,
-    submissionImage: File
+    submissionImage: File,
+    submissionText: string
+}
+
+export interface SubmissionData {
+    userID: string,
+    teamID: string,
+    teamName: string,
+    challengeID: string,
+    submissionText: string,
+    submissionImage: string,
+    time: any
 }
 
 export interface Teams {

@@ -7,7 +7,8 @@ import {
     Stack,
     Input,
     Link,
-    Button
+    Button,
+    HStack
 } from '@chakra-ui/react'
 import {    
     AddIcon,
@@ -21,16 +22,22 @@ export interface CreateTeamProps {
 	children: React.ReactNode;
 }
 
+interface SubmissionData {
+    teamName: string,
+    password: string
+}
+
 export function CreateTeam(ctprops: CreateTeamProps) {
     const router = useRouter();
     const [{ data, loading, error}, refetch] = useAxios({
         url: `api/teams`,
         method: "POST"
-      }, {manual: true}
+      }
     );
-    const [input, setInput] = useState('');
-    const [finalInput, setFinalInput] = useState('');
-    const handleInputChange = (e: any) => setInput(e.target?.value);
+    const [teamName, setTeamName] = useState('');
+    const [password, setPassword] = useState('');
+    const [submission, setSubmission] = useState<any>(null);
+
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
@@ -41,7 +48,7 @@ export function CreateTeam(ctprops: CreateTeamProps) {
            for (let chal of data.challenges) {
                nodes[chal.challengeID] = {
                    "challengeID": chal.challengeID,
-                   "completed": false,
+                   "status": 0,
                    "data": ""
                }
                if (Object.keys(nodes).length === 25) {
@@ -52,10 +59,10 @@ export function CreateTeam(ctprops: CreateTeamProps) {
         }
         const createTeam = async () => {
             const newTeam: TeamData = {
-                "teamID": hashCode(finalInput).toString(),
-                "teamName": finalInput,
-                "players": [router.query.userID as string], 
-                "challengesCompleted": 0,
+                "teamID": hashCode(submission.teamName).toString(),
+                "teamName": submission.teamName,
+                "password": submission.password,
+                "players": [router.query.userID as string],
                 "nodes": getNodes()
             }
             const user = router.query;
@@ -75,36 +82,72 @@ export function CreateTeam(ctprops: CreateTeamProps) {
                 query: user
             })
         }
-        if (finalInput.length > 0 && !!data) {
+        if (submission !== null &&
+            submission.teamName.length > 0
+            && submission.password.length > 0
+            && !!data) {
             createTeam();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [finalInput, data])
+    }, [submission, data])
 
     return (
         <Stack>
-            <Flex 
+            <HStack 
                 bgColor='gray.100'
                 rounded='md'
-                mb={3}
+                mb="1vh"
                 p={3} 
                 minWidth='max-content' 
                 alignItems='center' 
                 gap='2'
             >
                 <Text fontSize='l'>Create Team: </Text>
-                <Input fontSize='l' value={input} onChange={handleInputChange}></Input>
-                <Spacer />
-                <Button onClick={() => {
-                        refetch({
-                            url: 'api/challenges',
-                            method: "GET",
+                <Input 
+                    fontSize='l' 
+                    value={teamName} 
+                    onChange={(e: any) => {
+                        setTeamName(e.target?.value);
+                    }}
+                ></Input>
+            </HStack>
+            <HStack 
+                bgColor='gray.100'
+                rounded='md'
+                mb="2vh"
+                p={3} 
+                minWidth='max-content' 
+                alignItems='center' 
+                gap='2'
+            >
+                <Text fontSize='l'>Enter Passcode: </Text>
+                <Input 
+                    fontSize='l' 
+                    value={password} 
+                    onChange={(e: any) => {
+                        setPassword(e.target?.value);
+                    }}
+                ></Input>
+            </HStack>
+            <Button 
+                    colorScheme='blue' 
+                    mr={3} 
+                    onClick={(e) => {
+                        e.preventDefault()
+                        if (!!!data) {
+                            refetch({
+                                url: 'api/challenges',
+                                method: "GET",
+                            });
+                        }
+                        setSubmission({
+                            teamName: teamName,
+                            password: password
                         });
-                        setFinalInput(input);
-                    }}>
-                    <AddIcon />
+                    }}
+                >
+                Continue
                 </Button>
-            </Flex>
         </Stack>
     );
 }
