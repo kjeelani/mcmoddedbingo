@@ -24,6 +24,8 @@ export interface NodeModalProps {
     challenge: ChallengeData,
     team: TeamData,
     isOpen: boolean,
+    isSubmitting: boolean,
+    isResubmitting: boolean
     onCloseWithSubmit: () => void,
     onCloseWithOutSubmit: () => void
 }
@@ -71,51 +73,63 @@ export function NodeModal(nmprops: NodeModalProps) {
     },[submission, nmprops])
 
     return (
-        <Modal isOpen={nmprops.isOpen} onClose={nmprops.onCloseWithOutSubmit}>
+        <Modal size="xl" isOpen={nmprops.isOpen} onClose={nmprops.onCloseWithOutSubmit}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader fontSize="2xl">{nmprops.challenge.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
+            {nmprops.isResubmitting &&
+                <Text color="red.600" mb="1.5vh">
+                    Please contact the moderators for questions on
+                    why your submission was rejected
+                </Text>
+            }
             <Text fontSize="lg" mb = "5vh">
                 {nmprops.challenge.instructions}
             </Text>
-            <Heading fontSize="md" mb = "3vh">
+            {nmprops.isSubmitting && 
+                <>
+                <Heading fontSize="md" mb = "3vh">
                 Submit Image Directly or Add Google Drive Link
-            </Heading>
-            <input 
-                type="file" 
-                accept=".png,.jpg,.jpeg,.mov,.gif,.mp4"
-                onChange={(e) => {
-                    e.preventDefault();
-                    if (e.target.files){
-                        setCurrentImage(e.target.files[e.target.files.length - 1]);
-                    }
-                }}
-            ></input>
-            <Text color="gray.400" mb="3vh" mt="1vh">
-                Note: Only your last uploaded file will be submitted!
-            </Text>
-            <Textarea 
-                fontSize="sm"
-                placeholder="Submit Google Drive link to media alongside any comments"
-                onChange={(e) => {
-                    setCurrentText(e.target.value);
-                }}
-            >
-            </Textarea>
+                </Heading>
+                <input 
+                    type="file" 
+                    accept=".png,.jpg,.jpeg,.mov,.gif,.mp4"
+                    onChange={(e) => {
+                        e.preventDefault();
+                        if (e.target.files){
+                            setCurrentImage(e.target.files[e.target.files.length - 1]);
+                        }
+                    }}
+                ></input>
+                <Text color="gray.400" mb="3vh" mt="1vh">
+                    Note: Only your last uploaded file will be submitted!
+                </Text>
+                <Textarea 
+                    fontSize="sm"
+                    placeholder="Submit Google Drive link to media alongside any comments"
+                    onChange={(e) => {
+                        setCurrentText(e.target.value);
+                    }}
+                >
+                </Textarea>
+                </>
+            }
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={(e) => {
-                e.preventDefault();
-                setSubmission({
-                    "image": currentImage,
-                    "text": currentText
-                });
-            }}>
-              Submit
-            </Button>
+            {nmprops.isSubmitting &&
+                <Button colorScheme='blue' mr={3} onClick={(e) => {
+                    e.preventDefault();
+                    setSubmission({
+                        "image": currentImage,
+                        "text": currentText
+                    });
+                }}>
+                Submit
+                </Button>
+            }
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -56,25 +56,25 @@ export function BingoNode(bnprops: BingoNodeProps) {
     }
 
     return (
-        <Link onClick={(status === 0 || status === 3)  ? onOpen : function(){}}>
+        <Link onClick={onOpen}>
             <Box p="8" fontSize="lg" bgColor={getColorFromStatus()}>
                 {loading && <Text>Loading...</Text>}
                 {!!data && 
                     <>
                     <Text>{data.title}</Text>
-                    {(status === 0 || status === 3) && 
-                        <NodeModal 
-                            userID={bnprops.userID}
-                            team={bnprops.teamData}
-                            challenge={data}
-                            isOpen={isOpen}
-                            onCloseWithSubmit={() => {
-                                setStatus(1);
-                                onClose();
-                            }}
-                            onCloseWithOutSubmit={onClose}
-                        />
-                    }
+                    <NodeModal 
+                        userID={bnprops.userID}
+                        team={bnprops.teamData}
+                        challenge={data}
+                        isOpen={isOpen}
+                        isSubmitting={(status === 0 || status === 3)}
+                        isResubmitting={status == 3}
+                        onCloseWithSubmit={() => {
+                            setStatus(1);
+                            onClose();
+                        }}
+                        onCloseWithOutSubmit={onClose}
+                    />
                     </>
                 }
             </Box>

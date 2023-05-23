@@ -32,7 +32,7 @@ export default function Home() {
     if (username === undefined) {
         username = "Username"
     }
-    const [{ data, loading }, refetch] = useAxios({
+    const [{ data, loading, error }, refetch] = useAxios({
         url: `api/teams/${teamID as string}`,
         method: "GET",
     });

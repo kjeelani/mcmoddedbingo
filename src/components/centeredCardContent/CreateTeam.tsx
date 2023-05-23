@@ -29,7 +29,7 @@ interface SubmissionData {
 
 export function CreateTeam(ctprops: CreateTeamProps) {
     const router = useRouter();
-    const [{ data, loading, error}, refetch] = useAxios({
+    const [{ data, error, loading}, refetch] = useAxios({
         url: `api/teams`,
         method: "POST"
       }

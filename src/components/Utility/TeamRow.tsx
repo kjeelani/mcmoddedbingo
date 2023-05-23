@@ -28,7 +28,7 @@ export function TeamRow(trprops: TeamRowProps) {
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [shouldJoinTeam, setShouldJoinTeam] = useState(false);
-    const [{ data }, refetch] = useAxios({
+    const [{ data, loading, error }, refetch] = useAxios({
         url: "api/teams/addMember",
         method: "PATCH"
       }, {manual: true}
@@ -64,6 +64,7 @@ export function TeamRow(trprops: TeamRowProps) {
 
     return (
         <Box>
+            {error && "Error"}
             <Flex 
                 bgColor='gray.100'
                 rounded='md'

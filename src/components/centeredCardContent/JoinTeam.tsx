@@ -21,7 +21,7 @@ function listTeams(data: Teams) {
 }
 
 export function JoinTeam(jtprops: JoinTeamProps) {
-    const [{ data, loading }, refetch] = useAxios({
+    const [{ data, error, loading }, refetch] = useAxios({
         url: `api/teams`,
         method: "GET"
       }, {manual: true}
@@ -35,6 +35,7 @@ export function JoinTeam(jtprops: JoinTeamProps) {
         <Stack>
             <Text>
             {loading && "Loading..."}
+            {error && "Error!"}
             {!!data && listTeams(data)}
             </Text>
         </Stack>
