@@ -6,7 +6,7 @@ import {
 import { useRouter } from 'next/router';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {initFirebaseApp} from '../../firebase.js/index.js';
+import {initFirebaseApp} from '../../firebase.js';
 
 
 export interface GoogleSignInProps {
