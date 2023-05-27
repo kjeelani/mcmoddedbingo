@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { 
     Flex,
     Heading,
@@ -17,6 +17,7 @@ import { TeamData } from "../APIData";
 import { TeamPasswordModal, TeamPasswordModalProps} from "./TeamPasswordModal";
 import useAxios from "axios-hooks";
 import { useRouter } from 'next/router';
+import axios from "axios";
 
 export interface TeamRowProps {
 	team: TeamData;
@@ -34,6 +35,13 @@ export function TeamRow(trprops: TeamRowProps) {
       }, {manual: true}
     );
 
+    useEffect(() => {
+        let name = trprops.team.teamName;
+        if(name.length > 12) {
+            trprops.team.teamName = name.substring(0, 7) + "...";
+            console.log(trprops.team.teamName)
+        }
+    }, [])
     
 
     useEffect(() => {

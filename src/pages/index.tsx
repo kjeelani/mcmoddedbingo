@@ -10,9 +10,7 @@ export default function Home() {
     return (
         <div className="App">
             <CenteredCard title={'Login'}>
-                <Login>
-                    ...
-                </Login>
+                <Login>...</Login>
             </CenteredCard>
         </div>
     )

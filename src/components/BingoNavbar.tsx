@@ -22,7 +22,6 @@ export function BingoNavbar(bnProps: BingoNavbarProps) {
             <Flex justify="space-between" flex="1">
                 <Avatar name={bnProps.username} />
                 <Text fontSize='lg' ml="2vh" mt="1vh">{title}</Text>
-                <Spacer></Spacer>
                 <GoogleSignOut></GoogleSignOut>
             </Flex>
             </HStack>

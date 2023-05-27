@@ -23,25 +23,27 @@ export function NewPlayerInfoScreen(npisprops: NewPlayerInfoScreenProps) {
             color={'white'}
             _hover={{
                 bg: 'yellow.500',
+                boxShadow: "5px 5px rgb(177, 141, 26)"
             }}
             onClick={() => router.push({
                 pathname: "/joinTeam",
                 query: router.query
             })}
             >
-                <Text fontSize={'2xl'}>Join a Team</Text>
+                <Text fontSize={'xl'}>Join a Team</Text>
             </Button>
             <Button
             bg={'green.400'}
             color={'white'}
             _hover={{
                 bg: 'green.500',
+                boxShadow: "5px 5px rgb(38, 146, 92)"
             }}
             onClick={() => router.push({
                 pathname: "/createTeam",
                 query: router.query
             })}>
-                <Text fontSize={'2xl'}>Create a Team</Text>
+                <Text fontSize={'xl'}>Create a Team</Text>
             </Button>
         </Stack>
     );

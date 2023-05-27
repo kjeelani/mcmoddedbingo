@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import useAxios from "axios-hooks";
 import { 
-    Link as ChakraLink
+    Link as ChakraLink,
+    Box,
+    Flex,
+    Button
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -57,6 +60,25 @@ export function GoogleSignIn(gsiprops: GoogleSignInProps) {
     }
 
     return (
-        <ChakraLink onClick={signIn} color={'blue.400'}>Sign in with Google!</ChakraLink>
+        <Button
+            w="100%"
+            h="50px"
+            alignItems="center"
+            justifyContent="center"
+            onClick={signIn}
+            bg={'rgb(48, 151, 149)'}
+            color={'white'}
+            _hover={{
+                bg: 'rgb(28, 131, 129)',
+                boxShadow: "5px 5px rgb(8, 111, 109)"
+            }}
+            _focus={{
+                bg: 'blue.700',
+                boxShadow: "5px 5px rgb(23, 62, 109)"
+            }}
+            
+        >
+            Sign in with Google
+        </Button>
     );
 }
