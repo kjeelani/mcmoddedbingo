@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { ParsedUrlQuery } from 'querystring';
 import {db} from '../../../firebase.js';
-import { UserData } from '@/components/APIData';
+import { UserData } from '@/components/lib/APIData.js';
 
 async function createUser(user: UserData) {
     await setDoc(doc(db, "UserAuth", user.userID.toString()), user)

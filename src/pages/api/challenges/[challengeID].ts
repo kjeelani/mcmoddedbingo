@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, getDoc } from "firebase/firestore";
 import {db} from '../../../firebase.js';
 import { ParsedUrlQuery } from 'querystring';
-import { ChallengeData } from '@/components/APIData';
+import { ChallengeData } from '@/components/lib/APIData.js';
 
 async function getTeamFromDB(challengeID: string) {
     const docRef = doc(db, "Challenges", challengeID);

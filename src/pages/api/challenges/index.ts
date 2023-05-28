@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { collection, query, getDocs } from "firebase/firestore";
 import {db} from '../../../firebase.js';
-import { ChallengeData } from '@/components/APIData.js';
+import { ChallengeData } from '@/components/lib/APIData.js';
 
 function shuffleArray(array: ChallengeData[]) {
     for (let i = array.length - 1; i > 0; i--) {

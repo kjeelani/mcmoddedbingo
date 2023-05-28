@@ -5,8 +5,8 @@ import {
     Text,
 } from '@chakra-ui/react'
 import { GoogleSignOut, GoogleSignOutProps} from "./GoogleSignOutButton"
-import { TeamData, Teams } from "../APIData";
-import { TeamRow } from "../Utility/TeamRow";
+import { TeamData, Teams } from "../lib/APIData";
+import { TeamRow } from "../utility/TeamRow";
 
 export interface JoinTeamProps {
 	children: React.ReactNode;

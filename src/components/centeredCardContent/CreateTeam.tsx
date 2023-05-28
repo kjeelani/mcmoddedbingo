@@ -13,7 +13,7 @@ import {
 import {    
     AddIcon,
 } from '@chakra-ui/icons'
-import { TeamData, hashCode } from "../APIData";
+import { TeamData, hashCode } from "../lib/APIData";
 import { GoogleSignOut, GoogleSignOutProps} from "./GoogleSignOutButton"
 import { useRouter } from "next/router";
 

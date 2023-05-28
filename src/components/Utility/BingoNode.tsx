@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/icons'
 import useAxios from "axios-hooks";
 import { NodeModal, NodeModalProps } from "./NodeModal"
-import { TeamData } from "../APIData";
+import { TeamData } from "../lib/APIData";
 
 export interface BingoNodeProps {
     userID: string

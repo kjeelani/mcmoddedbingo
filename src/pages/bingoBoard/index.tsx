@@ -3,9 +3,9 @@ import {CenteredCard, CenteredCardProps} from '../../components/CenteredCard';
 import { CreateTeam, CreateTeamProps } from '../../components/centeredCardContent/CreateTeam';
 import { BingoNavbar } from '@/components/BingoNavbar';
 import { useRouter } from 'next/router';
-import { TeamData } from "@/components/APIData";
+import { TeamData } from "@/components/lib/APIData";
 import { SimpleGrid, Box, Heading } from "@chakra-ui/react";
-import { BingoNode } from "@/components/Utility/BingoNode";
+import { BingoNode } from "@/components/utility/BingoNode";
 import { useEffect } from "react";
 
 

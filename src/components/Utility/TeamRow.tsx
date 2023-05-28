@@ -13,7 +13,7 @@ import {
     LockIcon,
     UnlockIcon
 } from '@chakra-ui/icons'
-import { TeamData } from "../APIData";
+import { TeamData } from "../lib/APIData";
 import { TeamPasswordModal, TeamPasswordModalProps} from "./TeamPasswordModal";
 import useAxios from "axios-hooks";
 import { useRouter } from 'next/router';

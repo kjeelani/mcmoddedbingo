@@ -15,7 +15,7 @@ import {
     ModalHeader,
     ModalOverlay,
 } from '@chakra-ui/react'
-import { ChallengeData, TeamData } from "../APIData";
+import { ChallengeData, TeamData } from "../lib/APIData";
 import axios from "axios";
 import { useRouter } from "next/router";
 
