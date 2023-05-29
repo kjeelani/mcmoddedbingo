@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/icons'
 import { TeamData } from "../lib/APIData";
 import { TeamPasswordModal, TeamPasswordModalProps} from "./TeamPasswordModal";
-import useAxios from "axios-hooks";
 import { useRouter } from 'next/router';
 import axios from "axios";
+import { usePost } from "../lib/AxiosHooks";
 
 export interface TeamRowProps {
 	team: TeamData;
@@ -29,34 +29,22 @@ export function TeamRow(trprops: TeamRowProps) {
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [shouldJoinTeam, setShouldJoinTeam] = useState(false);
-    const [{ data, loading, error }, refetch] = useAxios({
-        url: "api/teams/addMember",
-        method: "PATCH"
-      }, {manual: true}
-    );
-
-    useEffect(() => {
-        let name = trprops.team.teamName;
-        if(name.length > 12) {
-            trprops.team.teamName = name.substring(0, 7) + "...";
-            console.log(trprops.team.teamName)
-        }
-    }, [])
+    const [ error, loading, repost] = usePost({
+        url: `XXX`,
+        manual: true
+    });
     
-
     useEffect(() => {
         const joinTeam = async () => {
             const user = router.query;
             user.teamID = trprops.team.teamID;
     
-            await refetch({
+            await repost({
                 url: "api/teams/addMember",
-                method: "PATCH",
                 data: user,
             });
-            await refetch({
+            await repost({
                 url: "api/users",
-                method: "POST",
                 data: user,
             });
             router.push({
@@ -69,6 +57,13 @@ export function TeamRow(trprops: TeamRowProps) {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [shouldJoinTeam])
+
+    function truncate(teamName: string) {
+        if(teamName.length > 12) {
+            return teamName.substring(0, 7) + "...";
+        }
+        return teamName;
+    }
 
     return (
         <Box>
@@ -87,7 +82,7 @@ export function TeamRow(trprops: TeamRowProps) {
                     ? <Link onClick={onOpen}><AddIcon /></Link>
                     : <Link><AddIcon /></Link>
                 }
-                <Text fontSize='l'>{trprops.team.teamName}</Text>
+                <Text fontSize='l'>{truncate(trprops.team.teamName)}</Text>
                 <Spacer />
                 <Text fontSize='l'>{`${trprops.team.players.length}/4`}</Text>
                 {

@@ -2,6 +2,7 @@ export interface ChallengeData {
     challengeID: string,
     title: string,
     instructions: string,
+    difficulty: number,
     teamsCompleted: string[]
 }
 
@@ -24,6 +25,7 @@ export interface UserData {
 
 export interface Node {
     challengeID: string,
+    order?: number
     status: number,
     data: string 
 }

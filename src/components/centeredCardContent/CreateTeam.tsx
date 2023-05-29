@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useAxios from "axios-hooks";
+import { useFetch, usePost } from "../lib/AxiosHooks";
 import { 
     Flex,
     Spacer,
@@ -29,11 +29,14 @@ interface SubmissionData {
 
 export function CreateTeam(ctprops: CreateTeamProps) {
     const router = useRouter();
-    const [{ data, error, loading}, refetch] = useAxios({
-        url: `api/teams`,
-        method: "POST"
-      }
-    );
+    const [ error, loading, repost] = usePost({
+        url: `XXX`,
+        manual: true
+    });
+    const [ data, fetchError, fetchLoading, refetch] = useFetch({
+        url: `XXX`,
+        manual: true
+    });
     const [teamName, setTeamName] = useState('');
     const [password, setPassword] = useState('');
     const [submission, setSubmission] = useState<any>(null);
@@ -44,18 +47,32 @@ export function CreateTeam(ctprops: CreateTeamProps) {
     useEffect(() => {
         const getNodes = () => {
             //This GETS data.challenges, a SHUFFLED ARRAY of ChallengeData objects
-           const nodes: any = {}
-           for (let chal of data.challenges) {
-               nodes[chal.challengeID] = {
-                   "challengeID": chal.challengeID,
-                   "status": 0,
-                   "data": ""
-               }
-               if (Object.keys(nodes).length === 25) {
-                   break;
-               }
-           }
-           return nodes;
+            const nodes: any = {}
+            const difficultyArr = [
+                1,3,3,2,2,
+                3,2,2,1,3,
+                2,1,4,3,2,
+                3,3,2,2,1,
+                2,2,1,3,3
+            ];
+            let i = 0; let diffIndex = 0;
+            for (let diff of difficultyArr) {
+                while (true) {
+                    let chal = data.challenges[i];
+                    if (chal.difficulty === diff && !(chal.challengeID in nodes)) {
+                        nodes[chal.challengeID] = {
+                            "challengeID": chal.challengeID,
+                            "order": diffIndex,
+                            "status": 0,
+                            "data": ""
+                        }
+                        break;
+                    }
+                    i = (i + 1) % data.challenges.length;
+                }
+                diffIndex++;
+            }
+            return nodes;
         }
         const createTeam = async () => {
             const newTeam: TeamData = {
@@ -67,14 +84,12 @@ export function CreateTeam(ctprops: CreateTeamProps) {
             }
             const user = router.query;
             user.teamID = newTeam.teamID;
-            await refetch({
+            await repost({
                 url: `api/teams`,
-                method: "POST",
                 data: newTeam
             });
-            await refetch({
+            await repost({
                 url: "api/users",
-                method: "POST",
                 data: user,
             });
             router.push({
@@ -98,13 +113,12 @@ export function CreateTeam(ctprops: CreateTeamProps) {
                 rounded='md'
                 mb="1vh"
                 p={3} 
-                minWidth='max-content' 
                 alignItems='center' 
-                gap='2'
+                gap='.5vh'
             >
-                <Text fontSize='l'>Create Team: </Text>
+                <Text fontSize='md'>Create Team: </Text>
                 <Input 
-                    fontSize='l' 
+                    fontSize='md' 
                     value={teamName} 
                     onChange={(e: any) => {
                         setTeamName(e.target?.value);
@@ -116,13 +130,13 @@ export function CreateTeam(ctprops: CreateTeamProps) {
                 rounded='md'
                 mb="2vh"
                 p={3} 
-                minWidth='max-content' 
+                width="100%"
                 alignItems='center' 
                 gap='2'
             >
-                <Text fontSize='l'>Enter Passcode: </Text>
+                <Text fontSize='md'>Enter Passcode: </Text>
                 <Input 
-                    fontSize='l' 
+                    fontSize='md' 
                     value={password} 
                     onChange={(e: any) => {
                         setPassword(e.target?.value);
@@ -137,7 +151,6 @@ export function CreateTeam(ctprops: CreateTeamProps) {
                         if (!!!data) {
                             refetch({
                                 url: 'api/challenges',
-                                method: "GET",
                             });
                         }
                         setSubmission({

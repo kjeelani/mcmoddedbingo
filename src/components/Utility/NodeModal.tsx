@@ -95,7 +95,7 @@ export function NodeModal(nmprops: NodeModalProps) {
                 </Heading>
                 <input 
                     type="file" 
-                    accept=".png,.jpg,.jpeg,.mov,.gif,.mp4"
+                    accept=".png,.jpg,.jpeg"
                     onChange={(e) => {
                         e.preventDefault();
                         if (e.target.files){

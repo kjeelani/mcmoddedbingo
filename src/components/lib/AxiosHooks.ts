@@ -1,50 +1,95 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-const useFetch = (url: string) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [apiData, setApiData] = useState(null);
-    const [serverError, setServerError] = useState(null);
+export interface PayLoad {
+    url: string,
+    manual?: boolean,
+    data?: any
+}
+
+export const useFetch = (payload: PayLoad) => {
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState<any>(null);
+    const [error, setError] = useState<any>(null);
   
     useEffect(() => {
-      setIsLoading(true);
+      if (payload.manual) {
+        return;
+      }
+
+      setLoading(true);
       const fetchData = async () => {
         try {
-          const resp = await axios.get(url);
+          const resp = await axios.get(payload.url);
           const res = await resp?.data;
   
-          setApiData(res);
-          setIsLoading(false);
+          setData(res);
+          setLoading(false);
         } catch (error: any) {
-          setServerError(error);
-          setIsLoading(false);
+          setError(error);
+          setLoading(false);
         }
       };
   
       fetchData();
-    }, [url]);
+    }, [payload]);
+
+    const refetch = useCallback(
+        async (payload: PayLoad) => {
+            setData(null);
+            setError(null);
+            setLoading(false);
+            try {
+              const resp = await axios.get(payload.url);
+              const res = await resp?.data;
+              setData(res);
+              setLoading(false);
+            } catch (error: any) {
+              setError(error);
+              setLoading(false);
+            }
+        }, []);
   
-    return { isLoading, apiData, serverError };
+    return [data, error, loading, refetch];
 };
 
-const usePost = (url: string, inputData: any) => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [serverError, setServerError] = useState(null);
+
+
+export const usePost = (payload: PayLoad) => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<any>(null);
   
     useEffect(() => {
-      setIsLoading(true);
+      setLoading(true);
+      if (payload.manual) {
+        return;
+      }
+      
       const postData = async () => {
         try {
-          await axios.post(url, inputData);
-          setIsLoading(false);
+          await axios.post(payload.url, payload.data);
+          setLoading(false);
         } catch (error: any) {
-          setServerError(error);
-          setIsLoading(false);
+          setError(error);
+          setLoading(false);
         }
       };
   
       postData();
-    }, [url, inputData]);
+    }, [payload]);
+
+    const repost = useCallback(
+        async (payload: PayLoad) => {
+            setError(null);
+            setLoading(false);
+            try {
+              await axios.post(payload.url, payload.data)
+              setLoading(false);
+            } catch (error: any) {
+              setError(error);
+              setLoading(false);
+            }
+        }, []);
   
-    return { isLoading, serverError };
+    return [error, loading, repost];
 };

@@ -13,11 +13,11 @@ import {
 } from '@chakra-ui/react'
 
 
-// export interface LoginProps {
-// 	children: React.ReactNode;
-// }
+export interface LoginProps {
+	children: React.ReactNode;
+}
 
-export function Login(/*lgprops: LoginProps*/) {
+export function Login(lgprops: LoginProps) {
     const router = useRouter();
 
     return (

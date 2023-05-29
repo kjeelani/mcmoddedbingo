@@ -7,6 +7,7 @@ import { TeamData } from "@/components/lib/APIData";
 import { SimpleGrid, Box, Heading } from "@chakra-ui/react";
 import { BingoNode } from "@/components/utility/BingoNode";
 import { useEffect } from "react";
+import { useFetch } from "@/components/lib/AxiosHooks";
 
 
 function createNodes(nodes: any, team: any, userID: string) {
@@ -14,7 +15,7 @@ function createNodes(nodes: any, team: any, userID: string) {
         return <></>
     }
     return (
-        Object.keys(nodes).map((chalID: string) => {
+        Object.keys(nodes).sort((a:string, b:string) => nodes[a].order - nodes[b].order).map((chalID: string) => {
             return <BingoNode key={chalID} 
                         userID={userID}
                         teamData={team as TeamData} 
@@ -32,14 +33,16 @@ export default function Home() {
     if (username === undefined) {
         username = "Username"
     }
-    const [{ data, loading, error }, refetch] = useAxios({
+    const [data, error, loading, refetch] = useFetch({
         url: `api/teams/${teamID as string}`,
-        method: "GET",
+        manual: true
     });
 
     useEffect(() => {
-        refetch();
-    }, [refetch])
+        if (!!!data) {
+            refetch({url: `api/teams/${teamID as string}`});
+        }
+    }, [])
 
     return (
         <div>

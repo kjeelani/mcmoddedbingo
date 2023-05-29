@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import useAxios from "axios-hooks";
+import React, { useEffect, useState } from "react";
+import { useFetch } from "../lib/AxiosHooks";
 import { 
     Link as ChakraLink,
     Box,
@@ -22,14 +22,13 @@ export function GoogleSignIn(gsiprops: GoogleSignInProps) {
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
     const [user] = useAuthState(auth);
+    const [data, error, loading, refetch] = useFetch({
+        url: `XXX`,
+        manual: true
+    });
 
-    const [{ data, loading, error }, refetch] = useAxios({
-        url: "api/users",
-        method: "GET"
-      }, {manual: true}
-    );
 
-    if (user && data) {
+    if (user && !!data) {
         let pathName: string = "/newPlayer";
         let queryObj = {};
         if (data.teamID == "-1") {
@@ -53,9 +52,9 @@ export function GoogleSignIn(gsiprops: GoogleSignInProps) {
 
     const signIn = async () => {
         const result = await signInWithPopup(auth, provider);
+
         await refetch({
-            url: `api/users/${result.user.email}`,
-            method: "GET",
+            url: `api/users/${result.user.email}`      
         });
     }
 

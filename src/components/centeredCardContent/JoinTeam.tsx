@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useAxios from "axios-hooks";
+import { useFetch } from "../lib/AxiosHooks"
 import { 
     Stack,
     Text,
@@ -21,15 +21,16 @@ function listTeams(data: Teams) {
 }
 
 export function JoinTeam(jtprops: JoinTeamProps) {
-    const [{ data, error, loading }, refetch] = useAxios({
+    const [data, error, loading, refetch] = useFetch({
         url: `api/teams`,
-        method: "GET"
-      }
-    );
-
+        manual: true
+    });
+    
     useEffect(() => {
-        refetch();
-    }, [refetch])
+        if (!data) {
+            refetch({url: `api/teams`});
+        }
+    }, [])
 
     return (
         <Stack>

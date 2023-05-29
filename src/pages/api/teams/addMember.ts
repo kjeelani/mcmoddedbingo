@@ -25,7 +25,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    if (req.method == "PATCH") {
+    if (req.method == "POST") {
         try {
             await addUserToTeam(req.body as UserData); 
         } catch(error) {

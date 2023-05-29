@@ -77,7 +77,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    if (req.method == "PATCH" || req.method == "POST") {
+    if (req.method == "POST") {
         try {
             const data: any = await new Promise((resolve, reject) => {
                 const form = new formidable.IncomingForm()
