@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import useAxios from "axios-hooks";
+import { useFetch } from "../lib/AxiosHooks"
 import { 
     Stack,
     Text,
 } from '@chakra-ui/react'
 import { GoogleSignOut, GoogleSignOutProps} from "./GoogleSignOutButton"
-import { TeamData, Teams } from "../APIData";
-import { TeamRow } from "../Utility/TeamRow";
+import { TeamData, Teams } from "../lib/APIData";
+import { TeamRow } from "../utility/TeamRow";
 
 export interface JoinTeamProps {
 	children: React.ReactNode;
@@ -21,22 +21,23 @@ function listTeams(data: Teams) {
 }
 
 export function JoinTeam(jtprops: JoinTeamProps) {
-    const [{ data, error, loading }, refetch] = useAxios({
+    const [data, error, loading, refetch] = useFetch({
         url: `api/teams`,
-        method: "GET"
-      }, {manual: true}
-    );
-
+        manual: true
+    });
+    
     useEffect(() => {
-        refetch();
-    }, [refetch])
+        if (!data) {
+            refetch({url: `api/teams`});
+        }
+    }, [])
 
     return (
         <Stack>
             <Text>
             {loading && "Loading..."}
             {error && "Error!"}
-            {!!data && listTeams(data)}
+            {data && listTeams(data)}
             </Text>
         </Stack>
     );

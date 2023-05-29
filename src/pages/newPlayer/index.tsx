@@ -5,7 +5,7 @@ import {CenteredCard, CenteredCardProps} from '../../components/CenteredCard';
 import {NewPlayerInfoScreen, NewPlayerInfoScreenProps} from '../../components/centeredCardContent/NewPlayerInfoScreen';
 import { BingoNavbar } from '@/components/BingoNavbar';
 import { useRouter } from 'next/router';
-import { UserData } from "../../components/APIData";
+import { UserData } from "../../components/lib/APIData";
 
 
 export default function Home() {

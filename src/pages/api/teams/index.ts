@@ -3,7 +3,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { collection, query, getDocs } from "firebase/firestore";
 import {db} from '../../../firebase.js';
 import { ParsedUrlQuery } from 'querystring';
-import { TeamData, Teams } from '@/components/APIData';
+import { TeamData, Teams } from '@/components/lib/APIData.js';
 
 export async function getAllTeams() {
     let teams: TeamData[] = [];

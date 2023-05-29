@@ -15,7 +15,7 @@ import {
     ModalHeader,
     ModalOverlay,
 } from '@chakra-ui/react'
-import { ChallengeData, TeamData } from "../APIData";
+import { ChallengeData, TeamData } from "../lib/APIData";
 import axios from "axios";
 import { useRouter } from "next/router";
 
@@ -95,7 +95,7 @@ export function NodeModal(nmprops: NodeModalProps) {
                 </Heading>
                 <input 
                     type="file" 
-                    accept=".png,.jpg,.jpeg,.mov,.gif,.mp4"
+                    accept=".png,.jpg,.jpeg"
                     onChange={(e) => {
                         e.preventDefault();
                         if (e.target.files){

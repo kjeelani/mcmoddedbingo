@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import {db, storage} from '../../../firebase.js';
-import { TeamData, ChallengeData, SubmissionData, Node } from '@/components/APIData';
+import { TeamData, ChallengeData, SubmissionData, Node } from '@/components/lib/APIData.js';
 import { readFileSync } from "node:fs";
 import formidable from 'formidable-serverless'
 
@@ -77,7 +77,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    if (req.method == "PATCH" || req.method == "POST") {
+    if (req.method == "POST") {
         try {
             const data: any = await new Promise((resolve, reject) => {
                 const form = new formidable.IncomingForm()

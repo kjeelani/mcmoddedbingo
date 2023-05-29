@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import useAxios from "axios-hooks";
+import React, { useEffect, useState } from "react";
+import { useFetch } from "../lib/AxiosHooks";
 import { 
-    Link as ChakraLink
+    Link as ChakraLink,
+    Box,
+    Flex,
+    Button
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -19,14 +22,13 @@ export function GoogleSignIn(gsiprops: GoogleSignInProps) {
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
     const [user] = useAuthState(auth);
+    const [data, error, loading, refetch] = useFetch({
+        url: `XXX`,
+        manual: true
+    });
 
-    const [{ data, loading, error }, refetch] = useAxios({
-        url: "api/users",
-        method: "GET"
-      }, {manual: true}
-    );
 
-    if (user && data) {
+    if (user && !!data) {
         let pathName: string = "/newPlayer";
         let queryObj = {};
         if (data.teamID == "-1") {
@@ -50,13 +52,32 @@ export function GoogleSignIn(gsiprops: GoogleSignInProps) {
 
     const signIn = async () => {
         const result = await signInWithPopup(auth, provider);
+
         await refetch({
-            url: `api/users/${result.user.email}`,
-            method: "GET",
+            url: `api/users/${result.user.email}`      
         });
     }
 
     return (
-        <ChakraLink onClick={signIn} color={'blue.400'}>Sign in with Google!</ChakraLink>
+        <Button
+            w="100%"
+            h="50px"
+            alignItems="center"
+            justifyContent="center"
+            onClick={signIn}
+            bg={'rgb(48, 151, 149)'}
+            color={'white'}
+            _hover={{
+                bg: 'rgb(28, 131, 129)',
+                boxShadow: "5px 5px rgb(8, 111, 109)"
+            }}
+            _focus={{
+                bg: 'blue.700',
+                boxShadow: "5px 5px rgb(23, 62, 109)"
+            }}
+            
+        >
+            Sign in with Google
+        </Button>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
     Flex,
     Heading,
@@ -13,9 +13,9 @@ import {
     LockIcon,
     UnlockIcon
 } from '@chakra-ui/icons'
-import useAxios from "axios-hooks";
+import { useFetch } from "../lib/AxiosHooks"
 import { NodeModal, NodeModalProps } from "./NodeModal"
-import { TeamData } from "../APIData";
+import { TeamData } from "../lib/APIData";
 
 export interface BingoNodeProps {
     userID: string
@@ -35,11 +35,10 @@ Statuses:
 */
 
 export function BingoNode(bnprops: BingoNodeProps) {
-    const [{ data, loading }, refetch] = useAxios({
+    const [ data, error, loading,  refetch] = useFetch({
         url: `api/challenges/${bnprops.challengeID}`,
-        method: "GET"
-      }
-    );
+        manual: true
+    });
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [status, setStatus] = useState(bnprops.status);
     const getColorFromStatus = () => {
@@ -55,13 +54,22 @@ export function BingoNode(bnprops: BingoNodeProps) {
         }
     }
 
+    useEffect(() => {
+        if (!!!data) {
+            refetch({
+                url: `api/challenges/${bnprops.challengeID}`,
+                manual: true
+            });
+        }
+    })
+
     return (
         <Link onClick={onOpen}>
             <Box p="8" fontSize="lg" bgColor={getColorFromStatus()}>
                 {loading && <Text>Loading...</Text>}
                 {!!data && 
                     <>
-                    <Text>{data.title}</Text>
+                    <Text>{`${data.title}-${data.difficulty}`}</Text>
                     <NodeModal 
                         userID={bnprops.userID}
                         team={bnprops.teamData}

@@ -3,7 +3,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { collection, query, getDocs } from "firebase/firestore";
 import {db} from '../../../firebase.js';
 import { ParsedUrlQuery } from 'querystring';
-import { TeamData, Teams } from '@/components/APIData.js';
+import { TeamData, Teams } from '@/components/lib/APIData.js';
 import { getAllTeams } from './index';
 
 async function getTeamByTeamID(teamID: string) {
