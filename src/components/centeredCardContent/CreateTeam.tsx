@@ -49,11 +49,11 @@ export function CreateTeam(ctprops: CreateTeamProps) {
             //This GETS data.challenges, a SHUFFLED ARRAY of ChallengeData objects
             const nodes: any = {}
             const difficultyArr = [
-                1,3,3,2,2,
-                3,2,2,1,3,
-                2,1,4,3,2,
-                3,3,2,2,1,
-                2,2,1,3,3
+                2,3,2,3,2,
+                3,2,1,2,3,
+                1,2,4,2,2,
+                3,1,2,2,3,
+                2,3,2,3,1
             ];
             let i = 0; let diffIndex = 0;
             for (let diff of difficultyArr) {
