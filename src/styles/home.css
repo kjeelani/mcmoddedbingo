@@ -8,7 +8,7 @@ body, head, * {
 
 .App {
     font-family: 'Arvo', serif;
-    background-image: url("../images/mceternal.jpg");
+    background-image: url(../../public/mceternal.jpg);
     background-size: cover;
     display: flex;
     align-items: center;
