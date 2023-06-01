@@ -54,6 +54,13 @@ export function BingoNode(bnprops: BingoNodeProps) {
         }
     }
 
+    function truncate(teamName: string) {
+        if(teamName.length > 24) {
+            return teamName.substring(0, 18) + "...";
+        }
+        return teamName;
+    }
+
     useEffect(() => {
         if (!!!data) {
             refetch({
@@ -65,11 +72,47 @@ export function BingoNode(bnprops: BingoNodeProps) {
 
     return (
         <Link onClick={onOpen}>
-            <Box p="8" fontSize="lg" bgColor={getColorFromStatus()}>
+            <Box 
+                p="10" 
+                fontSize="sm" 
+                bgColor={getColorFromStatus()} 
+                borderRadius={"15px"}
+                maxHeight={"100px"}
+            >
                 {loading && <Text>Loading...</Text>}
                 {!!data && 
                     <>
-                    <Text>{`${data.title}-${data.difficulty}`}</Text>
+                    <Box
+                        w="200px"
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                    >
+                        {truncate(data.title)}
+                    </Box>
+                    <Box
+                        position={"absolute"}
+                        display={"flex"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        w="30px"
+                        h="30px"
+                        bg={"rgb(246, 101, 101)"}
+                        borderRadius="7px"
+
+                    >
+                        {
+                        data.difficulty > 2 ? 
+                        <Box 
+                            position={"absolute"} 
+                            fontSize={"36px"}
+                            zIndex={1}
+                            bottom={"-7px"}
+                            left={"-3.5px"}
+                        >🔥</Box> : 
+                        <></>
+                        }
+                        <Text zIndex={2}>{data.difficulty}</Text>
+                    </Box>
                     <NodeModal 
                         userID={bnprops.userID}
                         team={bnprops.teamData}

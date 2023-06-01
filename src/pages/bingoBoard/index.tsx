@@ -4,8 +4,8 @@ import { CreateTeam, CreateTeamProps } from '../../components/centeredCardConten
 import { BingoNavbar } from '@/components/BingoNavbar';
 import { useRouter } from 'next/router';
 import { TeamData } from "@/components/lib/APIData";
-import { SimpleGrid, Box, Heading } from "@chakra-ui/react";
-import { BingoNode } from "@/components/utility/BingoNode";
+import { SimpleGrid, Box, Heading, Text } from "@chakra-ui/react";
+import { BingoNode } from "@/components/utility/Bingo-Node";
 import { useEffect } from "react";
 import { useFetch } from "@/components/lib/AxiosHooks";
 
@@ -51,9 +51,36 @@ export default function Home() {
             <div className="App">
                 {loading && "Loading..."}
                 {!!data && 
-                    <Box textAlign="center" mb="6vh">
-                        <Heading mb="3vh">{`${data.teamName}'s Bingo Board`}</Heading>
-                        <SimpleGrid columns={5} spacing={3}>
+                    <Box 
+                        textAlign="center" 
+                        mb="32.5vh" 
+                        display={"flex"} 
+                        alignItems={"center"} 
+                        justifyContent={"center"} 
+                        flexDirection={"column"}
+                    >
+                        <Heading 
+                            mb="5vh"
+                            bg={"rgb(247, 250, 252)"}
+                            border={"2px solid rgb(136, 141, 146)"}
+                            w="fit-content"
+                            borderRadius={"15px"}
+                            px={"20px"}
+                            py={"10px"}
+                            display={"flex"} 
+                            alignItems={"center"} 
+                            justifyContent={"center"} 
+                            flexDirection={"row"}
+                        >
+                            <Text
+                                bg={"rgb(20, 255, 200)"}
+                                px={"10px"}
+                                borderRadius={"15px"}
+                                border={"1px solid black"}
+                            >{`${data.teamName}`}</Text>
+                            's Bingo Board
+                        </Heading>
+                        <SimpleGrid w={"90vw"} h={"80vh"} columns={5} spacingX={10}>
                             {!!data && createNodes(data.nodes, data, router.query.userID as string)}
                         </SimpleGrid>
                     </Box> 

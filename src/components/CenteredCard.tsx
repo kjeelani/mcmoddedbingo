@@ -35,6 +35,7 @@ export function CenteredCard(ccprops: CenteredCardProps) {
 
     return (
             <Card
+                mb={"45vh"}
                 w={'50vh'}
                 boxShadow={'0px 7px 15px black'}
                 rounded="25px"

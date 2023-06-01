@@ -1,10 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Arvo&display=swap%27');
+
 body, head, * {
     margin: 0;
     padding: 0;
 }
 
+
 .App {
-    font-family: "SF Mono", ui-monospace;
+    font-family: 'Arvo', serif;
     background-image: url("../images/mceternal.jpg");
     background-size: cover;
     display: flex;
@@ -13,9 +16,9 @@ body, head, * {
     top: 0px;
     left: 0;
     z-index: 90;
-    position: relative; 
-    height: 100vh;
+    height: 110vh;
     width: 100%;
+    min-height: 1000px;
 }
 
 .App::before {
