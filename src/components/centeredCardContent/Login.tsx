@@ -25,7 +25,7 @@ export function Login(lgprops: LoginProps) {
         <Stack spacing={5}>
             <div 
                 style={{
-                    width: "312px",
+                    width: "100%",
                     height: "2px",
                     backgroundColor: "rgb(223, 262, 240)",
                 }}
