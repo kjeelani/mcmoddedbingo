@@ -78,7 +78,7 @@ export default function Home() {
                                 borderRadius={"15px"}
                                 border={"1px solid black"}
                             >{`${data.teamName}`}</Text>
-                            's Bingo Board
+                            &apos;s Bingo Board
                         </Heading>
                         <SimpleGrid w={"90vw"} h={"80vh"} columns={5} spacingX={10}>
                             {!!data && createNodes(data.nodes, data, router.query.userID as string)}
