@@ -110,9 +110,6 @@ export function TeamModal(tmprops: TeamModalProps) {
                         </VStack>
                     </Box>
                 </ModalBody>
-                <ModalFooter>
-                    <Button onClick={tmprops.onClose}>Close</Button>
-                </ModalFooter>
             </ModalContent>
         </Modal>
     )
