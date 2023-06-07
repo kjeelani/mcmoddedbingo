@@ -98,7 +98,9 @@ export function TeamModal(tmprops: TeamModalProps) {
                 </ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <Box>
+                    <Box
+                        paddingBottom={"10px"}
+                    >
                         <VStack>
                         {tmprops.team.map((player) => {
                             return <div key={player}>
