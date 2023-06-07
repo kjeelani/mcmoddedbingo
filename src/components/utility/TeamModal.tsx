@@ -100,10 +100,12 @@ export function TeamModal(tmprops: TeamModalProps) {
                 <ModalBody>
                     <Box>
                         <VStack>
-                        {tmprops.team.map((player, index) => {
-                            return <PlayerToName
-                                        userID={player}
-                                    ></PlayerToName>
+                        {tmprops.team.map((player) => {
+                            return <div key={player}>
+                                        <PlayerToName
+                                            userID={player}
+                                        ></PlayerToName>
+                                    </div>
                         })}
                         </VStack>
                     </Box>
