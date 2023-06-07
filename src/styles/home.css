@@ -7,7 +7,6 @@ body, head, * {
 
 
 .App {
-    font-family: 'Arvo', serif;
     background-image: url(/mceternal.jpg);
     background-size: cover;
     display: flex;

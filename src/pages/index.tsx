@@ -5,6 +5,7 @@ import {CenteredCard, CenteredCardProps} from '../components/CenteredCard';
 import {Login} from '../components/centeredCardContent/Login';
 
 
+
 /*Login*/
 export default function Home() {
     return (
