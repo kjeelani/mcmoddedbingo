@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { 
     Flex,
-    Heading,
     Spacer,
     Text,
-    Textarea ,
     Input,
     Button,
     Modal,

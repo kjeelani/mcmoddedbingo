@@ -2,12 +2,7 @@ import React from "react";
 import { useRouter } from 'next/router';
 import { GoogleSignIn, GoogleSignInProps} from "./GoogleSignIn"
 import { 
-    Button,
-    FormControl,
     Stack,
-    FormLabel,
-    Input,
-    Checkbox,
     Link as ChakraLink,
     Spacer
 } from '@chakra-ui/react'

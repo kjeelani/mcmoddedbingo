@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { 
-    Flex,
     Heading,
-    Spacer,
     Text,
     Textarea ,
     Input,
@@ -17,7 +15,6 @@ import {
 } from '@chakra-ui/react'
 import { ChallengeData, TeamData } from "../lib/APIData";
 import axios from "axios";
-import { useRouter } from "next/router";
 
 export interface NodeModalProps {
 	userID: string,

@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useFetch, usePost } from "../lib/AxiosHooks";
 import { 
-    Flex,
-    Spacer,
     Text,
     Stack,
     Input,
-    Link,
     Button,
     HStack
 } from '@chakra-ui/react'
-import {    
-    AddIcon,
-} from '@chakra-ui/icons'
 import { TeamData, hashCode } from "../lib/APIData";
-import { GoogleSignOut, GoogleSignOutProps} from "./GoogleSignOutButton"
 import { useRouter } from "next/router";
 
 

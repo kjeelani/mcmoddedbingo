@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useFetch } from "../lib/AxiosHooks";
 import { 
     Link as ChakraLink,
-    Box,
-    Flex,
     Button
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router';

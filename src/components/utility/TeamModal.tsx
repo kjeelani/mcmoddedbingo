@@ -3,13 +3,12 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
-    ModalFooter,
     ModalBody,
     ModalCloseButton
 } from '@chakra-ui/react'
 
 import { useFetch } from "@/components/lib/AxiosHooks";
-import { Box, Text, Button, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 
 export interface TeamModalProps {
     teamName: string,

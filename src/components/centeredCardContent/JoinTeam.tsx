@@ -1,51 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useFetch } from "../lib/AxiosHooks"
 import { 
     Stack,
-    Text,
-    useDisclosure,
-    Link
+    Text
 } from '@chakra-ui/react'
-import { GoogleSignOut, GoogleSignOutProps} from "./GoogleSignOutButton"
 import { TeamData, Teams } from "../lib/APIData";
 import { TeamRow, TeamRowProps } from "../utility/TeamRow";
-import { TeamModal, TeamModalProps } from '@/components/utility/TeamModal';
 
 export interface JoinTeamProps {
 	children: React.ReactNode;
 }
 
-interface TeamRowModalProps {
-    team: TeamData
-}
-
-function TeamRowModal(props: TeamRowModalProps) {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-
-    return (
-        <>
-            <Link 
-                onClick={onOpen}
-                _hover={{
-                    textDecoration: "none"
-                }}
-            >
-                <TeamRow spacing={3} key={props.team.teamID} team={props.team} />
-            </Link>
-            <TeamModal
-                teamName={props.team.teamName}
-                team={props.team.players}
-                isOpen={isOpen}
-                onClose={onClose}
-            ></TeamModal>
-        </>
-    )
-}
 
 function listTeams(data: Teams) {
     return (
         data.teams.map((team: TeamData) => {
-            return <TeamRowModal team={team}></TeamRowModal>
+            return <TeamRow spacing={3} key={team.teamID} team={team} />
         })
     );
 }

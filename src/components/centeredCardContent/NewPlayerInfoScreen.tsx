@@ -6,7 +6,6 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
-import { GoogleSignOut, GoogleSignOutProps} from "./GoogleSignOutButton"
 
 
 export interface NewPlayerInfoScreenProps {

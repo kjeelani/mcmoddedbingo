@@ -1,10 +1,8 @@
 import {
     Box,
-    Heading,
     Text,
     Flex,
     HStack,
-    Spacer,
     Avatar,
 } from '@chakra-ui/react';
 import { GoogleSignOut } from './centeredCardContent/GoogleSignOutButton';

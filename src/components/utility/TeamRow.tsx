@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import { 
     Flex,
-    Heading,
     Spacer,
     Text,
     Box,
@@ -15,14 +14,42 @@ import {
 } from '@chakra-ui/icons'
 import { TeamData } from "../lib/APIData";
 import { TeamPasswordModal, TeamPasswordModalProps} from "./TeamPasswordModal";
+import { TeamModal, TeamModalProps } from '@/components/utility/TeamModal';
 import { useRouter } from 'next/router';
-import axios from "axios";
 import { usePost } from "../lib/AxiosHooks";
 
 export interface TeamRowProps {
 	team: TeamData;
     key?: string;
     spacing: number;
+}
+
+interface TextLinkProps {
+    team: TeamData,
+    children: ReactNode
+}
+
+function TextLink(tlprops: TextLinkProps) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    return (
+        <>
+            <Link
+                onClick={onOpen}
+                _hover={{
+                    textDecoration: "none"
+                }}
+            >
+                <Text fontSize='l' w="150px">{tlprops.children}</Text>
+            </Link>
+            <TeamModal
+                teamName={tlprops.team.teamName}
+                team={tlprops.team.players}
+                isOpen={isOpen}
+                onClose={onClose}
+            ></TeamModal>
+        </>
+    )
 }
 
 export function TeamRow(trprops: TeamRowProps) {
@@ -82,8 +109,8 @@ export function TeamRow(trprops: TeamRowProps) {
                     ? <Link onClick={onOpen}><AddIcon /></Link>
                     : <Link><AddIcon /></Link>
                 }
-                <Text fontSize='l'>{truncate(trprops.team.teamName)}</Text>
-                <Spacer />
+                <TextLink team={trprops.team}>{truncate(trprops.team.teamName)}</TextLink>
+                {/* <Spacer /> */}
                 <Text fontSize='l'>{`${trprops.team.players.length}/4`}</Text>
                 {
                     trprops.team.players.length == 4

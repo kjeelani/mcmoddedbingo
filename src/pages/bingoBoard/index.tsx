@@ -1,6 +1,3 @@
-import useAxios from "axios-hooks";
-import {CenteredCard, CenteredCardProps} from '../../components/CenteredCard';
-import { CreateTeam, CreateTeamProps } from '../../components/centeredCardContent/CreateTeam';
 import { BingoNavbar } from '@/components/BingoNavbar';
 import { useRouter } from 'next/router';
 import { TeamData } from "@/components/lib/APIData";
@@ -8,9 +5,7 @@ import {
     SimpleGrid, 
     Box, 
     Heading, 
-    Text, 
-    Button, 
-    VStack, 
+    Text,
     useDisclosure 
 } from "@chakra-ui/react";
 import { BingoNode } from "@/components/utility/Bingo-Node";
@@ -21,12 +16,7 @@ import {
     Popover,
     PopoverTrigger,
     PopoverContent,
-    PopoverHeader,
     PopoverBody,
-    PopoverFooter,
-    PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor,
 } from '@chakra-ui/react'
 
 import { TeamModal, TeamModalProps } from "@/components/utility/TeamModal";

@@ -1,25 +1,14 @@
 import React from "react";
 import styles from "./CenteredCard.module.css";
-import { 
-    useColorModeValue, 
+import {
     Flex,
     Card, 
     CardHeader, 
     CardBody, 
     Heading,
-    Button,
-    FormControl,
-    Stack,
-    Text,
     Box,
-    FormLabel,
-    Input,
     Link,
-    Checkbox,
-    Spacer,
-    VStack
 } from '@chakra-ui/react'
-import { extendTheme } from '@chakra-ui/react'
 import { ArrowLeftIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 

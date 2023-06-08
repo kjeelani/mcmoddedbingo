@@ -1,6 +1,3 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { useCallback, useEffect, useState, ReactNode } from 'react';
 import {CenteredCard, CenteredCardProps} from '../../components/CenteredCard';
 import { CreateTeam, CreateTeamProps } from '../../components/centeredCardContent/CreateTeam';
 import { BingoNavbar } from '@/components/BingoNavbar';
